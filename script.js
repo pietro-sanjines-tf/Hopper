@@ -2,11 +2,10 @@
 
 // Element references
 const form = document.getElementById('cardForm');
-const generateBtn = document.getElementById('generate');
 const downloadBtn = document.getElementById('downloadPdf');
-const generateQrBtn = document.getElementById('generateQr');
 const saveBtn = document.getElementById('saveLocal');
 const shareBtn = document.getElementById('shareLink');
+const downloadVcfBtn = document.getElementById('downloadVcf');
 
 const inputFullName = document.getElementById('fullName');
 const inputCompany = document.getElementById('company');
@@ -42,19 +41,45 @@ function readFileAsDataURL(file) {
     });
 }
 
+function escapeVCard(text) {
+    if (text == null) return '';
+    return String(text)
+        .replace(/\\/g, '\\\\')
+        .replace(/\n|\r\n|\r/g, '\\n')
+        .replace(/,/g, '\\,')
+        .replace(/;/g, '\\;')
+        .trim();
+}
+
 function buildVcard({ fullName, company, title, phone, email }) {
+    const safeFull = escapeVCard(fullName);
+    const parts = (fullName || '').trim().split(/\s+/);
+    const lastName = escapeVCard(parts.length > 1 ? parts[parts.length - 1] : '');
+    const firstNames = escapeVCard(parts.length > 1 ? parts.slice(0, -1).join(' ') : parts[0] || '');
     const lines = [
         'BEGIN:VCARD',
         'VERSION:3.0',
-        `N:;${fullName};;;`,
-        `FN:${fullName}`
+        `N:${lastName};${firstNames};;;`,
+        `FN:${safeFull}`
     ];
-    if (company) lines.push(`ORG:${company}`);
-    if (title) lines.push(`TITLE:${title}`);
-    if (phone) lines.push(`TEL;TYPE=CELL:${phone}`);
-    if (email) lines.push(`EMAIL;TYPE=INTERNET:${email}`);
+    if (company) lines.push(`ORG:${escapeVCard(company)}`);
+    if (title) lines.push(`TITLE:${escapeVCard(title)}`);
+    if (phone) lines.push(`TEL;TYPE=CELL:${escapeVCard(phone)}`);
+    if (email) lines.push(`EMAIL;TYPE=INTERNET:${escapeVCard(email)}`);
     lines.push('END:VCARD');
-    return lines.join('\n');
+    return lines.join('\r\n');
+}
+
+function downloadVcf(vcardStr, filenameBase) {
+    const blob = new Blob([vcardStr], { type: 'text/vcard;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = (filenameBase || 'contact') + '.vcf';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
 }
 
 async function generateQR(vcardStr) {
@@ -236,18 +261,18 @@ function applyFromUrl() {
 }
 
 // Wire up events
-generateBtn.addEventListener('click', handleGenerate);
-
 downloadBtn.addEventListener('click', handleDownloadPdf);
 
 saveBtn.addEventListener('click', handleSaveLocal);
 
 shareBtn.addEventListener('click', handleShare);
 
-// Generate-only QR button (reuses full update flow)
-generateQrBtn.addEventListener('click', async () => {
+// Download .vcf
+downloadVcfBtn && downloadVcfBtn.addEventListener('click', async () => {
     if (!validate()) return;
-    await updatePreview();
+    const values = getCurrentInputs();
+    const v = buildVcard(values);
+    downloadVcf(v, values.fullName ? values.fullName.replace(/\s+/g, '_') : 'contact');
 });
 
 // Live update card on input changes

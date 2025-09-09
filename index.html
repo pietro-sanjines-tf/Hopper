@@ -7,7 +7,25 @@
     <title>Digital Business Card Generator</title>
     <link rel="stylesheet" href="style.css">
     <!-- Allowed CDN libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <script>
+        (function () {
+            function load(src, onload) {
+                var s = document.createElement('script');
+                s.src = src;
+                s.async = true;
+                s.onload = onload;
+                s.onerror = function () {
+                    // fallback to unpkg latest
+                    var f = document.createElement('script');
+                    f.src = 'https://unpkg.com/qrcode@latest/build/qrcode.min.js';
+                    f.async = true;
+                    document.head.appendChild(f);
+                };
+                document.head.appendChild(s);
+            }
+            load('https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js');
+        })();
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 </head>
@@ -50,9 +68,8 @@
                         <input type="file" id="logo" accept="image/*">
                     </label>
                     <div style="display:flex; gap:8px">
-                        <button type="button" id="generate">Generate Card</button>
-                        <button type="button" id="generateQr">Generate QR</button>
                         <button type="button" id="downloadPdf">Download PDF</button>
+                        <button type="button" id="downloadVcf">Download vCard (.vcf)</button>
                         <button type="button" id="saveLocal">Save Locally</button>
                         <button type="button" id="shareLink">Generate Share Link</button>
                     </div>
