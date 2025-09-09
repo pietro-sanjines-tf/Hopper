@@ -1,0 +1,157 @@
+:root {
+    --bg: #f5f7fa;
+    --card: #fff;
+    --muted: #6b7280;
+    --accent: #0f172a
+}
+
+* {
+    box-sizing: border-box;
+    font-family: Inter, system-ui, Arial, sans-serif
+}
+
+body {
+    background: var(--bg);
+    color: var(--accent);
+    margin: 0;
+    padding: 32px
+}
+
+.container {
+    max-width: 980px;
+    margin: 0 auto
+}
+
+h1 {
+    margin: 0 0 16px
+}
+
+.form-section {
+    background: #fff;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .06);
+    margin-bottom: 16px
+}
+
+.row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px
+}
+
+.row.small {
+    align-items: center
+}
+
+label {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    font-size: 14px
+}
+
+input,
+select {
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    margin-top: 6px
+}
+
+button {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 0;
+    background: #111;
+    color: #fff;
+    cursor: pointer
+}
+
+.preview-section {
+    margin-top: 12px
+}
+
+#card-wrapper {
+    padding: 16px
+}
+
+.card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 520px;
+    height: 280px;
+    padding: 20px;
+    border-radius: 12px;
+    background: var(--card);
+    box-shadow: 0 6px 20px rgba(2, 6, 23, .08)
+}
+
+.card.clean {
+    background: linear-gradient(180deg, #fff, #f8fafc)
+}
+
+.card.dark {
+    background: #0b1220;
+    color: #fff
+}
+
+.card-left {
+    display: flex;
+    gap: 12px;
+    align-items: center
+}
+
+#card-logo {
+    width: 72px;
+    height: 72px;
+    border-radius: 8px;
+    object-fit: cover;
+    background: #eee
+}
+
+.card-text .name {
+    font-size: 20px;
+    font-weight: 700
+}
+
+.card-text .title {
+    font-size: 14px;
+    color: var(--muted)
+}
+
+.card-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px
+}
+
+.contact {
+    font-size: 13px;
+    color: var(--muted)
+}
+
+.note {
+    font-size: 13px;
+    color: var(--muted)
+}
+
+#savedList {
+    list-style: none;
+    padding-left: 0
+}
+
+#savedList li {
+    background: #fff;
+    padding: 8px;
+    margin: 6px 0;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between
+}
+
+#savedList button {
+    background: #0b1220
+}

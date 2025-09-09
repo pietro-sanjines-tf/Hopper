@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Digital Business Card Generator</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Allowed CDN libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+</head>
+
+<body>
+    <main class="container">
+        <h1>Digital Business Card Generator</h1>
+
+        <section class="form-section">
+            <form id="cardForm">
+                <div class="row">
+                    <label>Full Name*
+                        <input type="text" id="fullName" placeholder="Jane Doe" required>
+                    </label>
+                    <label>Company/Organization
+                        <input type="text" id="company" placeholder="Acme Inc.">
+                    </label>
+                </div>
+                <div class="row">
+                    <label>Role/Title
+                        <input type="text" id="title" placeholder="Product Manager">
+                    </label>
+                    <label>Phone Number*
+                        <input type="tel" id="phone" placeholder="+1 555 555 5555" required>
+                    </label>
+                </div>
+                <div class="row">
+                    <label>Email Address
+                        <input type="email" id="email" placeholder="jane@example.com">
+                    </label>
+                    <label>Template
+                        <select id="template">
+                            <option value="clean">Clean</option>
+                            <option value="dark">Dark</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="row small">
+                    <label>Logo/Image
+                        <input type="file" id="logo" accept="image/*">
+                    </label>
+                    <div style="display:flex; gap:8px">
+                        <button type="button" id="generate">Generate Card</button>
+                        <button type="button" id="generateQr">Generate QR</button>
+                        <button type="button" id="downloadPdf">Download PDF</button>
+                        <button type="button" id="saveLocal">Save Locally</button>
+                        <button type="button" id="shareLink">Generate Share Link</button>
+                    </div>
+                </div>
+            </form>
+        </section>
+
+        <section class="preview-section">
+            <h2>Preview</h2>
+            <div id="card-wrapper">
+                <div id="business-card" class="card clean">
+                    <div class="card-left">
+                        <img id="card-logo" alt="logo" />
+                        <div class="card-text">
+                            <div id="card-name" class="name">Full Name</div>
+                            <div id="card-title" class="title">Title</div>
+                            <div id="card-company" class="company">Company</div>
+                        </div>
+                    </div>
+                    <div class="card-right">
+                        <canvas id="qr-canvas"></canvas>
+                        <div class="contact">
+                            <div id="card-phone">+0 000 000 000</div>
+                            <div id="card-email">email@example.com</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="note">Tip: After generating, scan the QR with your phone's camera — it should offer to import a
+                contact (vCard).</p>
+        </section>
+
+        <section class="saved-section">
+            <h3>Saved Cards (local)</h3>
+            <ul id="savedList"></ul>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
